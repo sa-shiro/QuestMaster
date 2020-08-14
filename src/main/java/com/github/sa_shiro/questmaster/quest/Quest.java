@@ -3,35 +3,39 @@ package com.github.sa_shiro.questmaster.quest;
 import com.github.sa_shiro.questmaster.quest.condition.ICondition;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class Quest {
 
-    protected static String questName;
-    protected static boolean questState = false;
-    protected static int XP;
-    protected static ItemStack[] itemReward;
-    protected static ICondition condition;
-/*
-    public Quest(String questNameIn, boolean isFinished, ItemStack... rewardItem) {
-        this(questNameIn, isFinished, 0, rewardItem);
-    }
+    final String questName;
+    protected boolean questState;
+    int XP;
+    ItemStack[] itemReward;
+    ICondition condition;
 
-    public Quest(String questNameIn, boolean isFinished, int rewardXP) {
-        this(questNameIn, isFinished, rewardXP, (ItemStack) null);
-    }
-*/
-    public Quest(String questNameIn, boolean isFinished, int rewardXP, ICondition conditionIn, ItemStack... rewardItem) {
+    /*
+        public Quest(String questNameIn, boolean isFinished, ItemStack... rewardItem) {
+            this(questNameIn, isFinished, 0, rewardItem);
+        }
+
+        public Quest(String questNameIn, boolean isFinished, int rewardXP) {
+            this(questNameIn, isFinished, rewardXP, (ItemStack) null);
+        }
+    */
+    public Quest(String questNameIn, int rewardXP, ICondition conditionIn, ItemStack... rewardItem) {
         questName = questNameIn;
         itemReward = rewardItem;
         XP = rewardXP;
-        questState = isFinished;
         condition = conditionIn;
+        questState = condition.isFinished();
     }
 
     public void giveReward() {
-        if(!this.getQuestSate() && condition.isFinished()) {
+        if (!this.getQuestSate() && this.condition.isFinished()) {
             Minecraft.getInstance().player.giveExperiencePoints(XP);
-            for ( ItemStack item : itemReward) {
+            for (ItemStack item : this.itemReward) {
                 Minecraft.getInstance().player.inventory.addItemStackToInventory(item.copy());
             }
             this.setQuestState(true);

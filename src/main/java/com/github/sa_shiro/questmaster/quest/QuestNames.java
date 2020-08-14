@@ -1,17 +1,7 @@
 package com.github.sa_shiro.questmaster.quest;
 
-public enum QuestNames {
+public class QuestNames {
 
-    ZOMBIE("kill_zombies"),
-    SKELETON("kill_skeletons");
-
-    String questName;
-
-    QuestNames(String name) {
-        questName = name;
-    }
-
-    public String getName() {
-        return questName;
-    }
+    public static final String ZOMBIE = "kill_zombies";
+    public static final String SKELETON = "kill_skeletons";
 }

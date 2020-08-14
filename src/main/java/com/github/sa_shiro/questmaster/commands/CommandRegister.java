@@ -8,6 +8,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
+import net.minecraft.util.text.StringTextComponent;
 
 import java.util.Arrays;
 
@@ -21,6 +22,17 @@ public class CommandRegister {
                             return 0;
                         })
                         .requires(context -> context.hasPermissionLevel(2))
+                )
+
+                .then(Commands.literal("complete")
+                .executes(context -> {
+                    for (Quest quest : QuestList.QUESTS) {
+                        if (quest.getQuestSate()) {
+                            quest.giveReward();
+                        } else context.getSource().sendFeedback(new StringTextComponent("No finished Quests found!"), false);
+                    }
+                    return 0;
+                })
                 )
         );
     }

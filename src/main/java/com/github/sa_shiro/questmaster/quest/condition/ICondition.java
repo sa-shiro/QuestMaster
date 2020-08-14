@@ -14,9 +14,6 @@ public interface ICondition {
      */
     int getTargetCount();
 
-    //fixme: unused
-    void completeQuest(Quest quest);
-
     /**
      * @return true if the {@link Quest} has been finished.
      */

@@ -12,8 +12,7 @@ public class QuestList {
 
     public static ArrayList<Quest> QUESTS = new ArrayList<>();
 
-    public void registerQuests() {
-        QUESTS.add(0, new Quest(QuestNames.ZOMBIE.getName(),false, 15, new KillCondition(EntityType.ZOMBIE, 3), new ItemStack(Items.APPLE, 3), new ItemStack(Items.WATER_BUCKET, 3)));
+    public static void registerQuests() {
+        QUESTS.add(0, new Quest(QuestNames.ZOMBIE, 15,  new KillCondition(EntityType.ZOMBIE, 3), new ItemStack(Items.APPLE, 3), new ItemStack(Items.WATER_BUCKET, 3)));
     }
-
 }
