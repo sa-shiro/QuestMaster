@@ -17,5 +17,10 @@ public interface ICondition {
     /**
      * @return true if the {@link Quest} has been finished.
      */
-    boolean isFinished();
+    boolean getConditionState();
+
+    /**
+     * @param isFinished Sets the {@link Quest} status to complete (true) or incomplete (false).
+     */
+    void setConditionState(boolean isFinished);
 }

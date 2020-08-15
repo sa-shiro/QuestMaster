@@ -3,14 +3,11 @@ package com.github.sa_shiro.questmaster.quest;
 import com.github.sa_shiro.questmaster.quest.condition.ICondition;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class Quest {
 
     final String questName;
-    protected boolean questState;
+    boolean hasClaimedReward;
     int XP;
     ItemStack[] itemReward;
     ICondition condition;
@@ -29,16 +26,18 @@ public class Quest {
         itemReward = rewardItem;
         XP = rewardXP;
         condition = conditionIn;
-        questState = condition.isFinished();
+        hasClaimedReward = false;
     }
 
     public void giveReward() {
-        if (!this.getQuestSate() && this.condition.isFinished()) {
+        if (condition.getConditionState() && !hasClaimedReward) {
+            assert Minecraft.getInstance().player != null;
             Minecraft.getInstance().player.giveExperiencePoints(XP);
-            for (ItemStack item : this.itemReward) {
+
+            for (ItemStack item : itemReward) {
                 Minecraft.getInstance().player.inventory.addItemStackToInventory(item.copy());
             }
-            this.setQuestState(true);
+            completeQuest();
         } else {
             System.out.println("Quest has already been completed!");
         }
@@ -53,11 +52,11 @@ public class Quest {
     }
 
     public boolean getQuestSate() {
-        return questState;
+        return this.condition.getConditionState();
     }
 
-    public void setQuestState(boolean isFinished) {
-        questState = isFinished;
+    private void completeQuest() {
+        this.hasClaimedReward = true;
     }
 
     public String getQuestName() {
@@ -66,6 +65,7 @@ public class Quest {
 
     public static Quest getQuestByName(String name) {
         Quest quest = null;
+
         for (Quest q : QuestList.QUESTS) {
             if (q.getQuestName().equals(name)) {
                 quest = q;

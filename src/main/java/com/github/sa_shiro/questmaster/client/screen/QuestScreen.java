@@ -5,9 +5,7 @@ import com.github.sa_shiro.questmaster.client.screen.components.ButtonText;
 import com.github.sa_shiro.questmaster.util.ResourceLocations;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -42,7 +40,8 @@ public class QuestScreen extends Screen {
         int relX = (this.width - TEXTURE_WIDTH) / 2;
         int relY = (this.height - TEXTURE_HEIGHT) / 2;
 
-        this.addButton(new ButtonText(relX + 10, relY - 10, "Test", action -> { }));
+        this.addButton(new ButtonText(relX + 10, relY - 10, "Test", action -> {
+        }));
     }
 
 

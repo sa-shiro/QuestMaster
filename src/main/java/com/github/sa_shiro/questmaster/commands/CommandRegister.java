@@ -3,14 +3,11 @@ package com.github.sa_shiro.questmaster.commands;
 import com.github.sa_shiro.questmaster.client.screen.QuestScreen;
 import com.github.sa_shiro.questmaster.quest.Quest;
 import com.github.sa_shiro.questmaster.quest.QuestList;
-import com.github.sa_shiro.questmaster.quest.QuestNames;
+import com.github.sa_shiro.questmaster.world.WorldSavedQuestData;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.StringArgumentType;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.util.text.StringTextComponent;
-
-import java.util.Arrays;
 
 public class CommandRegister {
 
@@ -25,14 +22,16 @@ public class CommandRegister {
                 )
 
                 .then(Commands.literal("complete")
-                .executes(context -> {
-                    for (Quest quest : QuestList.QUESTS) {
-                        if (quest.getQuestSate()) {
-                            quest.giveReward();
-                        } else context.getSource().sendFeedback(new StringTextComponent("No finished Quests found!"), false);
-                    }
-                    return 0;
-                })
+                        .executes(context -> {
+                            for (Quest quest : QuestList.QUESTS) {
+                                System.out.println("QuestState: " + quest.getQuestName() + " - " + quest.getQuestSate());
+                                if (quest.getQuestSate()) {
+                                    quest.giveReward();
+                                } else
+                                    context.getSource().sendFeedback(new StringTextComponent("Quests " + quest.getQuestName() + "is not finished!"), false);
+                            }
+                            return 0;
+                        })
                 )
         );
     }
